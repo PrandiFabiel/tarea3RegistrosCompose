@@ -1,4 +1,4 @@
-package com.example.tarea3registroscompose.ui.theme.screens
+package com.example.tarea3registroscompose.ui.screens
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -23,6 +23,7 @@ import com.example.tarea3registroscompose.ui.theme.Tarea3RegistrosComposeTheme
 @Composable
 fun PersonaScreen(
     modifier: Modifier = Modifier,
+    onSave: () -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
 
@@ -35,7 +36,7 @@ fun PersonaScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-
+                     onSave()
                 },
                 backgroundColor = MaterialTheme.colors.primary
             ) {
@@ -125,10 +126,3 @@ fun Spinner(){
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewPersonaScreen(){
-    Tarea3RegistrosComposeTheme {
-        PersonaScreen()
-    }
-}
