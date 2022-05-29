@@ -1,6 +1,9 @@
 package com.example.tarea3registroscompose.util
 
-sealed class screen(val route: String){
-    object PersonaScreen: screen("Persona")
-    object PersonaListScreen: screen("PersonaList")
+sealed class Screen(val route: String){
+    object PersonaScreen: Screen("Persona")
+    object PersonaListScreen: Screen("PersonaList")
+
+    object OcupacionScreen: Screen("Ocupacion")
+    object OcupacionListScreen: Screen("OcupacionList")
 }

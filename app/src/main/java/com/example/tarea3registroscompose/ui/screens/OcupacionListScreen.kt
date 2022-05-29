@@ -16,22 +16,21 @@ import androidx.compose.ui.unit.dp
 import com.example.tarea3registroscompose.ui.theme.Tarea3RegistrosComposeTheme
 
 @Composable
-fun PersonaListScreen(
-    onNavigateToPersona: () -> Unit,
-    onNavigateToListOcupacion: () -> Unit
+fun OcupacionListScreen(
+    onNavigateToOcupacion: () -> Unit,
 ) {
     val scaffoldState = rememberScaffoldState()
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "Persona List") }
+                title = { Text(text = "Ocupacion List") }
             )
         },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                     onNavigateToPersona()
+                    onNavigateToOcupacion()
                 },
                 backgroundColor = MaterialTheme.colors.primary
             ) {
@@ -41,28 +40,21 @@ fun PersonaListScreen(
         scaffoldState = scaffoldState
     ) {
         Column(modifier = Modifier.padding(it)) {
-
-            Column(modifier = Modifier.padding(16.dp)) {
-                Button(onClick = { onNavigateToListOcupacion() }, Modifier.padding(top = 8.dp)) {
-                    Text(text = "Ocupaciones")
-                }
-            }
-
             Row(modifier = Modifier){
                 Text(
-                    text = "Nombre",
+                    text = "ID",
                     modifier = Modifier.padding(start = 20.dp),
                     style = MaterialTheme.typography.h5
                 )
                 Text(
-                    text = "Ocupacion",
+                    text = "Descripcion",
                     modifier = Modifier.padding(start = 140.dp),
                     style = MaterialTheme.typography.h5
                 )
             }
             LazyColumn(modifier = Modifier.fillMaxWidth()) {
                 items(5) { index ->
-                    PersonaRow(name = "Fabiel", ocupacion = "Ingeniero", onClick = {})
+                    OcupacionRow(ID = "$index", Description = "Ingeniero", onClick = {})
                 }
             }
         }
@@ -72,7 +64,7 @@ fun PersonaListScreen(
 
 
 @Composable
-fun PersonaRow(name: String, ocupacion: String, onClick: () -> Unit) {
+fun OcupacionRow(ID: String, Description: String, onClick: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -84,12 +76,12 @@ fun PersonaRow(name: String, ocupacion: String, onClick: () -> Unit) {
     {
         Row(modifier = Modifier.padding(top = 10.dp)) {
             Text(
-                text = name,
+                text = ID,
                 maxLines = 1,
                 modifier = Modifier.padding(start = 20.dp)
             )
             Text(
-                text = ocupacion,
+                text = Description,
                 modifier = Modifier.padding(start = 185.dp)
             )
         }
@@ -100,8 +92,8 @@ fun PersonaRow(name: String, ocupacion: String, onClick: () -> Unit) {
 
 @Preview(showBackground = true)
 @Composable
-fun DefaultPreview() {
+fun PreviewListOcupacion() {
     Tarea3RegistrosComposeTheme {
-        //PersonaListScreen()
+
     }
 }

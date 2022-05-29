@@ -11,11 +11,12 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.tarea3registroscompose.ui.screens.OcupacionListScreen
+import com.example.tarea3registroscompose.ui.screens.OcupacionScreen
 import com.example.tarea3registroscompose.ui.theme.Tarea3RegistrosComposeTheme
 import com.example.tarea3registroscompose.ui.screens.PersonaListScreen
 import com.example.tarea3registroscompose.ui.screens.PersonaScreen
-import com.example.tarea3registroscompose.util.screen
-
+import com.example.tarea3registroscompose.util.Screen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,15 +37,27 @@ fun PrestamosApp(
         ) {
             val navHostController = rememberNavController( )
 
-            NavHost(navController = navHostController, startDestination = screen.PersonaListScreen.route){
-                composable(route =screen.PersonaListScreen.route ){
+            NavHost(navController = navHostController, startDestination = Screen.PersonaListScreen.route){
+                composable(route = Screen.PersonaListScreen.route ){
                     PersonaListScreen(
-                        onNavigateToPersona =  {navHostController.navigate(screen.PersonaScreen.route)}
+                        onNavigateToPersona =  {navHostController.navigate(Screen.PersonaScreen.route)},
+                        onNavigateToListOcupacion = {navHostController.navigate(Screen.OcupacionListScreen.route)}
                     )
                 }
-                composable(route =screen.PersonaScreen.route ){
+                composable(route = Screen.PersonaScreen.route ){
                     PersonaScreen(onSave = {navHostController.navigateUp()})
                 }
+
+                composable(route = Screen.OcupacionListScreen.route){
+                    OcupacionListScreen(
+                        onNavigateToOcupacion = {navHostController.navigate(Screen.OcupacionScreen.route)}
+                    )
+                }
+
+                composable(route = Screen.OcupacionScreen.route ){
+                    OcupacionScreen(onSave = {navHostController.navigateUp()})
+                }
+
             }
         }
     }
