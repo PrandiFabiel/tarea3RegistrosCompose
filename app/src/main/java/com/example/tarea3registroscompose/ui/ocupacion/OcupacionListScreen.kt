@@ -1,4 +1,4 @@
-package com.example.tarea3registroscompose.ui.screens
+package com.example.tarea3registroscompose.ui.ocupacion
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -6,32 +6,36 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.tarea3registroscompose.model.Ocupacion
 import com.example.tarea3registroscompose.ui.theme.Tarea3RegistrosComposeTheme
 
 @Composable
-fun PersonaListScreen(
-    onNavigateToPersona: () -> Unit,
-    onNavigateToListOcupacion: () -> Unit
+fun OcupacionListScreen(
+    viewModel: OcupacionViewModel = hiltViewModel(),
+    onNavigateToOcupacion: () -> Unit,
 ) {
     val scaffoldState = rememberScaffoldState()
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "Persona List") }
+                title = { Text(text = "Ocupacion List") }
             )
         },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                     onNavigateToPersona()
+                    onNavigateToOcupacion()
                 },
                 backgroundColor = MaterialTheme.colors.primary
             ) {
@@ -41,28 +45,23 @@ fun PersonaListScreen(
         scaffoldState = scaffoldState
     ) {
         Column(modifier = Modifier.padding(it)) {
-
-            Column(modifier = Modifier.padding(16.dp)) {
-                Button(onClick = { onNavigateToListOcupacion() }, Modifier.padding(top = 8.dp)) {
-                    Text(text = "Ocupaciones")
-                }
-            }
-
             Row(modifier = Modifier){
                 Text(
-                    text = "Nombre",
+                    text = "ID",
                     modifier = Modifier.padding(start = 20.dp),
                     style = MaterialTheme.typography.h5
                 )
                 Text(
-                    text = "Ocupacion",
+                    text = "Descripcion",
                     modifier = Modifier.padding(start = 140.dp),
                     style = MaterialTheme.typography.h5
                 )
             }
+            val listaOcupaciones = viewModel.ocupaciones.collectAsState(initial = emptyList())
+
             LazyColumn(modifier = Modifier.fillMaxWidth()) {
-                items(5) { index ->
-                    PersonaRow(name = "Fabiel", ocupacion = "Ingeniero", onClick = {})
+                items(listaOcupaciones.value) { ocupacion ->
+                    OcupacionRow(ocupacion)
                 }
             }
         }
@@ -72,7 +71,7 @@ fun PersonaListScreen(
 
 
 @Composable
-fun PersonaRow(name: String, ocupacion: String, onClick: () -> Unit) {
+fun OcupacionRow(ocupacion: Ocupacion) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -84,12 +83,12 @@ fun PersonaRow(name: String, ocupacion: String, onClick: () -> Unit) {
     {
         Row(modifier = Modifier.padding(top = 10.dp)) {
             Text(
-                text = name,
+                text = ocupacion.ocupacionId.toString(),
                 maxLines = 1,
                 modifier = Modifier.padding(start = 20.dp)
             )
             Text(
-                text = ocupacion,
+                text = ocupacion.nombre,
                 modifier = Modifier.padding(start = 185.dp)
             )
         }
@@ -100,8 +99,8 @@ fun PersonaRow(name: String, ocupacion: String, onClick: () -> Unit) {
 
 @Preview(showBackground = true)
 @Composable
-fun DefaultPreview() {
+fun PreviewListOcupacion() {
     Tarea3RegistrosComposeTheme {
-        //PersonaListScreen()
+
     }
 }

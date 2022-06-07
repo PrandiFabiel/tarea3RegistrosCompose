@@ -11,13 +11,15 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.tarea3registroscompose.ui.screens.OcupacionListScreen
-import com.example.tarea3registroscompose.ui.screens.OcupacionScreen
+import com.example.tarea3registroscompose.ui.ocupacion.OcupacionListScreen
+import com.example.tarea3registroscompose.ui.ocupacion.OcupacionScreen
 import com.example.tarea3registroscompose.ui.theme.Tarea3RegistrosComposeTheme
-import com.example.tarea3registroscompose.ui.screens.PersonaListScreen
-import com.example.tarea3registroscompose.ui.screens.PersonaScreen
+import com.example.tarea3registroscompose.ui.persona.PersonaListScreen
+import com.example.tarea3registroscompose.ui.persona.PersonaScreen
 import com.example.tarea3registroscompose.util.Screen
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

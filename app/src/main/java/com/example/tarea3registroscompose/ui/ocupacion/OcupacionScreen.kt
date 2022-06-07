@@ -1,19 +1,23 @@
-package com.example.tarea3registroscompose.ui.screens
+package com.example.tarea3registroscompose.ui.ocupacion
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Save
+import androidx.compose.material.icons.filled.Work
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.tarea3registroscompose.model.Ocupacion
 
-
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun OcupacionScreen(
-    modifier: Modifier = Modifier,
+    viewModel: OcupacionViewModel = hiltViewModel(),
     onSave: () -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
@@ -28,6 +32,7 @@ fun OcupacionScreen(
             FloatingActionButton(
                 onClick = {
                     onSave()
+                    viewModel.Guardar()
                 },
                 backgroundColor = MaterialTheme.colors.primary
             ) {
@@ -37,13 +42,17 @@ fun OcupacionScreen(
         scaffoldState = scaffoldState
     ) {
         Column(modifier = Modifier.padding(10.dp)) {
+
             OutlinedTextField(
                 label = {
                     Text(text = "Descripcion")
                 },
-                value = "",
-                onValueChange = {  },
-                modifier = modifier.fillMaxWidth()
+                value = viewModel.nombre,
+                onValueChange = { viewModel.nombre = it },
+                modifier = Modifier.fillMaxWidth(),
+                leadingIcon = {
+                    Icon(imageVector = Icons.Default.Work, contentDescription = null)
+                }
             )
         }
     }

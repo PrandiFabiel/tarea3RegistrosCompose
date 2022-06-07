@@ -1,5 +1,6 @@
-package com.example.tarea3registroscompose.ui.screens
+package com.example.tarea3registroscompose.ui.persona
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,19 +11,22 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Save
+import androidx.compose.material.icons.filled.Work
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
-import com.example.tarea3registroscompose.ui.theme.Tarea3RegistrosComposeTheme
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.tarea3registroscompose.ui.ocupacion.OcupacionViewModel
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun PersonaScreen(
     modifier: Modifier = Modifier,
+    viewModel: PersonaViewModel = hiltViewModel(),
     onSave: () -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
@@ -36,6 +40,7 @@ fun PersonaScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
+                     viewModel.Guardar()
                      onSave()
                 },
                 backgroundColor = MaterialTheme.colors.primary
@@ -50,24 +55,24 @@ fun PersonaScreen(
                 label = {
                     Text(text = "Nombre")
                 },
-                value = "",
-                onValueChange = {  },
+                value = viewModel.nombres,
+                onValueChange = { viewModel.nombres = it },
                 modifier = modifier.fillMaxWidth()
             )
             OutlinedTextField(
                 label = {
                     Text(text = "Salario")
                 },
-                value = "",
-                onValueChange = { },
+                value = viewModel.salario,
+                onValueChange = { viewModel.salario = it },
                 modifier =  modifier.fillMaxWidth()
             )
             OutlinedTextField(
                 label = {
                     Text(text = "Email")
                 },
-                value = "",
-                onValueChange = { },
+                value = viewModel.email,
+                onValueChange = { viewModel.email = it },
                 modifier =  modifier.fillMaxWidth()
             )
             Spinner()
@@ -77,11 +82,13 @@ fun PersonaScreen(
 }
 
 @Composable
-fun Spinner(){
+fun Spinner(viewModel: OcupacionViewModel = hiltViewModel(),
+            personaViewModel: PersonaViewModel = hiltViewModel()
+){
 
     var mExpanded by remember { mutableStateOf(false) }
 
-    val ocupaciones = listOf("Ingeniero", "Doctor", "Abogado")
+    val ocupaciones = viewModel.ocupaciones.collectAsState(initial = emptyList())
 
     var mSelectedText by remember { mutableStateOf("") }
 
@@ -106,7 +113,11 @@ fun Spinner(){
             trailingIcon = {
                 Icon(icon,"contentDescription",
                     Modifier.clickable { mExpanded = !mExpanded })
-            }
+            },
+            leadingIcon = {
+                Icon(imageVector = Icons.Default.Work, contentDescription = null)
+            },
+            readOnly = true
         )
         DropdownMenu(
             expanded = mExpanded,
@@ -114,12 +125,13 @@ fun Spinner(){
             modifier = Modifier
                 .width(with(LocalDensity.current){mTextFieldSize.width.toDp()})
         ) {
-            ocupaciones.forEach { label ->
+            ocupaciones.value.forEach {
                 DropdownMenuItem(onClick = {
-                    mSelectedText = label
+                    personaViewModel.ocupacion = it.ocupacionId
+                    mSelectedText = it.nombre
                     mExpanded = false
                 }) {
-                    Text(text = label)
+                    Text(text = it.nombre)
                 }
             }
         }
